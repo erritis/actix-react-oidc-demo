@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "src/react"
+		},
+		{
+			"path": "src/backend"
+		}
+	],
+	"settings": {}
+}

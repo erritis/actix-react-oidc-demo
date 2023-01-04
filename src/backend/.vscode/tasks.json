@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker-compose up backend",
+            "type": "docker-compose",
+            "dockerCompose": {
+              "up": {
+                "detached": true,
+                "build": true,
+                "services": ["backend"],
+              },
+              "files": [
+                "${workspaceFolder}/../../docker-compose.yml",
+              ],
+            }
+        }
+    ]
+}

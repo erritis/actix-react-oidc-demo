@@ -1,0 +1,106 @@
+version: "3.9"
+
+services:
+  keycloakdb:
+    container_name: actix-react-auth-keycloakdb
+    image: postgres:12.9
+    volumes:
+      - keycloakdb:/var/lib/postgresql/data
+    ports:
+      - 52632:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h keycloakdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - actix-react-auth-network
+
+  keycloak:
+    container_name: actix-react-auth-keycloak
+    image: quay.io/keycloak/keycloak:19.0.3
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloakdb:5432/postgres
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: PdZoV9NpYuq#zdsYXfHo
+      KC_FEATURES:
+        token-exchange
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
+      KC_HOSTNAME_STRICT_BACKCHANNEL: 'false'
+      KC_HTTP_ENABLED: 'true'
+      PROXY_ADDRESS_FORWARDING: 'true'
+      KC_CACHE_STACK: tcp
+    volumes:
+      - ./.keycloak:/opt/keycloak/data/import/:ro
+    command:
+      - "start"
+      - "--http-port 52633"
+      - "--proxy=passthrough"
+      - "--import-realm"
+    ports:
+      - 52633:52633
+    depends_on:
+      - keycloakdb
+    networks:
+      actix-react-auth-network:
+        ipv4_address: 172.26.0.3
+    
+  web:
+    image: node:14.17.6-alpine
+    container_name: actix-react-auth-web
+    stdin_open: true
+    deploy:
+      replicas: 1
+    ports:
+      - "52634:52634"
+    volumes:
+      - "$PWD/src/react:/app:rw"
+    depends_on:
+      - keycloak
+    environment:
+      REACT_APP_ENVIRONMENT_NAME: development
+      NODE_ENV: development
+      PORT: 52634
+      REACT_APP_KEYCLOAK_URL: http://172.26.0.3:52633/realms/react-example
+      REACT_APP_KEYCLOAK_REALM: react-example
+      REACT_APP_KEYCLOAK_CLIENT_ID: react
+      REACT_APP_KEYCLOAK_REDIRECT_URL: http://localhost:52634/
+      REACT_APP_BACKEND_URL: http://localhost:52635
+    working_dir: /app
+    command: sh -c "yarn install && yarn start"
+    networks:
+      - actix-react-auth-network
+
+  backend:
+    container_name: actix-react-auth-backend
+    image: actix-react-auth-backend
+    build: ./src/backend
+    deploy:
+      replicas: 1
+    environment:
+      AUTHORITY: http://172.26.0.3:52633/realms/react-example
+    depends_on:
+      - keycloak
+    ports:
+      - "52635:8080"
+    networks:
+      - actix-react-auth-network
+
+networks:
+  actix-react-auth-network:
+    name: actix-react-auth-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.26.0.0/24"
+
+volumes:
+  keycloakdb:
+    driver: local
