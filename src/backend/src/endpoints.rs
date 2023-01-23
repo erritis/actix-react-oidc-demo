@@ -1,6 +1,5 @@
-use actix_4_jwt_auth::{AuthenticatedUser};
 use actix_web::{get, HttpResponse};
-use serde::{Serialize, Deserialize};
+use aliri_actix::scope_policy;
 
 
 #[get("/healthcheck")]
@@ -9,19 +8,11 @@ async fn healthcheck() -> HttpResponse {
 }
 
 
-#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
-pub struct FoundClaims {
-    pub iss: String,
-    pub sub: String,
-    pub aud: String,
-    pub name: String,
-    pub email: Option<String>,
-    pub email_verified: Option<bool>,
-    pub scope: String,
-}
+
+scope_policy!(Profile / ProfileScope; "profile");
 
 
 #[get("/userinfo")]
-pub async fn userinfo(user: AuthenticatedUser<FoundClaims>) -> HttpResponse {
-    HttpResponse::Ok().json(user.claims)
+pub async fn userinfo(user: Profile) -> HttpResponse {
+    HttpResponse::Ok().json(user.claims())
 }
