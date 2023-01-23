@@ -6,10 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = "4"
+actix-web = "4.2.1"
 actix-cors = "0.6.4"
 serde = { version = "1", features = ["derive"] }
 env_logger = "0.10.0"
-actix-4-jwt-auth = "0.6.1"
+# actix-4-jwt-auth = { path = "/home/erritis/Projects/Erritis/actix-4-jwt-auth" }
+actix-4-jwt-auth = { git = "https://github.com/erritis/actix-4-jwt-auth.git", branch = "develop" }
 futures-util = "0.3.25"
-biscuit = "0.6.0-beta1"

@@ -1,8 +1,7 @@
-use actix_4_jwt_auth::AuthenticatedUser;
+use actix_4_jwt_auth::{AuthenticatedUser};
 use actix_web::{get, HttpResponse};
-use serde::{Serialize};
+use serde::{Serialize, Deserialize};
 
-use crate::auth::FoundClaims;
 
 #[get("/healthcheck")]
 async fn healthcheck() -> HttpResponse {
@@ -10,11 +9,15 @@ async fn healthcheck() -> HttpResponse {
 }
 
 
-#[derive(Debug, Serialize)]
-pub struct Forecast<'a>{
-    summary: &'static str,
-    temperaturec: i8,
-    date: &'a str
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
+pub struct FoundClaims {
+    pub iss: String,
+    pub sub: String,
+    pub aud: String,
+    pub name: String,
+    pub email: Option<String>,
+    pub email_verified: Option<bool>,
+    pub scope: String,
 }
 
 
