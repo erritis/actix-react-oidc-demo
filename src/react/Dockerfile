@@ -1,5 +1,7 @@
 FROM node:14.17.6-alpine AS build
 
+RUN apk --no-cache add curl
+
 ENV PATH=/web/node_modules/.bin:$PATH
 
 WORKDIR /app

@@ -23,6 +23,8 @@ RUN cargo build --target=x86_64-unknown-linux-musl
 
 FROM rust:alpine AS publish
 
+RUN apk --no-cache add curl
+
 WORKDIR /app
 
 ENV APP=backend
