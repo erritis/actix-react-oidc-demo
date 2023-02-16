@@ -42,7 +42,7 @@ async fn main() -> std::io::Result<()> {
             )
             .service(healthcheck)
     })
-    .bind(("0.0.0.0", 52635))?
+    .bind(("0.0.0.0", 52634))?
     .run()
     .await
 }

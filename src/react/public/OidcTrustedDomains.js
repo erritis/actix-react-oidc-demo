@@ -5,5 +5,5 @@
 // Domains used by OIDC server must be also declared here
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const trustedDomains = {
-    default: ['http://172.26.0.3:52633', 'http://localhost:52635'],
+    default: ['http://172.26.0.3:52633', 'http://localhost:52634'],
 };

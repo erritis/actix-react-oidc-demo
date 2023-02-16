@@ -51,30 +51,6 @@ services:
     networks:
       actix-react-auth-network:
         ipv4_address: 172.26.0.3
-    
-  web:
-    image: node:14.17.6-alpine
-    container_name: actix-react-auth-web
-    stdin_open: true
-    deploy:
-      replicas: 1
-    ports:
-      - "52634:52634"
-    volumes:
-      - "$PWD/src/react:/app:rw"
-    depends_on:
-      - keycloak
-    environment:
-      REACT_APP_ENVIRONMENT_NAME: development
-      NODE_ENV: development
-      PORT: 52634
-      REACT_APP_KEYCLOAK_URL: http://172.26.0.3:52633/realms/react-example
-      REACT_APP_KEYCLOAK_CLIENT_ID: react
-      REACT_APP_BACKEND_URL: http://localhost:52635
-    working_dir: /app
-    command: sh -c "yarn install && yarn start"
-    networks:
-      - actix-react-auth-network
 
   backend:
     container_name: actix-react-auth-backend
@@ -87,7 +63,25 @@ services:
     depends_on:
       - keycloak
     ports:
-      - "52635:8080"
+      - "52634:52634"
+    networks:
+      - actix-react-auth-network
+
+  web:
+    container_name: actix-react-auth-web
+    image: actix-react-auth-web
+    build: 
+      context: ./src/react
+      args:
+        REACT_APP_KEYCLOAK_CLIENT_ID: react
+        REACT_APP_KEYCLOAK_URL: http://172.26.0.3:52633/realms/react-example
+        REACT_APP_BACKEND_URL: http://localhost:52634
+    deploy:
+      replicas: 1
+    ports:
+      - "52635:3000"
+    depends_on:
+      - keycloak
     networks:
       - actix-react-auth-network
 

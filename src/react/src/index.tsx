@@ -5,14 +5,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { OidcProvider } from '@axa-fr/react-oidc';
-import { oidcConfig } from './auth.config';
+import { getOidcConfig } from './auth.config';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <OidcProvider configuration={oidcConfig}>
+    <OidcProvider configuration={getOidcConfig()}>
       <App />
     </OidcProvider>
   </React.StrictMode>

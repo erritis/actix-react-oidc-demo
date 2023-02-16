@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "http://localhost:52634",
+            "url": "http://localhost:52635",
             "webRoot": "${workspaceFolder}",
             "sourceMaps": true,
             "sourceMapPathOverrides": {
@@ -20,7 +20,7 @@
             "request": "launch",
             "port": 9229,
             "name": "Launch Chromium-ErritisWorker",
-            "url": "http://localhost:52634",
+            "url": "http://localhost:52635",
             "webRoot": "${workspaceFolder}",
             "runtimeExecutable": "/usr/bin/chromium",
             "sourceMaps": true,
