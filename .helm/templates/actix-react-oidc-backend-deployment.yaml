@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.werf.yml -o ./.helm/templates
+    kompose.service.expose: backend.actix-react-oidc.test
+    kompose.service.expose.ingress-class-name: nginx
+    kompose.version: 1.27.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: actix-react-oidc-backend
+  name: actix-react-oidc-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: actix-react-oidc-backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.werf.yml -o ./.helm/templates
+        kompose.service.expose: backend.actix-react-oidc.test
+        kompose.service.expose.ingress-class-name: nginx
+        kompose.version: 1.27.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/actix-react-oidc-network: "true"
+        io.kompose.service: actix-react-oidc-backend
+    spec:
+      containers:
+        - env:
+            - name: AUTHORITY
+              value: http://actix-react-oidc-keycloak/realms/react-example
+          image: {{ .Values.werf.image.actix_react_oidc_backend }}
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:8080/healthcheck
+            failureThreshold: 5
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: actix-react-oidc-backend
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}

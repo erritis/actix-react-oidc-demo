@@ -1,18 +1,24 @@
-version: "3.9"
+version: "3.8"
 
 services:
   actix-react-oidc-keycloakdb:
     container_name: actix-react-oidc-keycloakdb
     image: postgres:12.9
+    labels:
+      kompose.controller.type: "statefulset"
+      kompose.service.expose: "keycloakdb.actix-react-oidc.test"
+      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # cert-manager.io/issuer: letsencrypt-production
+      kompose.service.expose.ingress-class-name: "nginx"
     volumes:
       - keycloakdb:/var/lib/postgresql/data
     ports:
-      - 52632:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h keycloakdb"]
+      test: ["CMD-SHELL", "/bin/sh", "-c", "exec pg_isready -h 127.0.0.1"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -22,6 +28,11 @@ services:
   actix-react-oidc-keycloak:
     container_name: actix-react-oidc-keycloak
     image: quay.io/keycloak/keycloak:19.0.3
+    labels:
+      kompose.service.expose: "keycloak.actix-react-oidc.test"
+      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # cert-manager.io/issuer: letsencrypt-production
+      kompose.service.expose.ingress-class-name: "nginx"
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://actix-react-oidc-keycloakdb:5432/postgres
@@ -37,73 +48,78 @@ services:
       KC_HTTP_ENABLED: 'true'
       PROXY_ADDRESS_FORWARDING: 'true'
       KC_CACHE_STACK: tcp
-    volumes:
-      - ./.keycloak:/opt/keycloak/data/import/:ro
+    configs:
+      - source: keycloak-realm
+        target: /opt/keycloak/data/import/realm-export.json
+    ports:
+      - "80:80"
     command:
       - "start"
-      - "--http-port 52633"
+      - "--http-port 80"
       - "--proxy=passthrough"
       - "--import-realm"
-    ports:
-      - 52633:52633
     depends_on:
-      - actix-react-oidc-keycloakdb
+      - keycloakdb
     networks:
-      actix-react-oidc-network:
-        ipv4_address: 172.26.0.3
+      - actix-react-oidc-network
 
   actix-react-oidc-backend:
     container_name: actix-react-oidc-backend
-    image: actix-react-oidc-backend
-    build: ./src/backend
-    deploy:
-      replicas: 1
+    image: "{{ .Values.werf.image.actix_react_oidc_backend }}"
+    labels:
+      kompose.service.expose: "backend.actix-react-oidc.test"
+      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # cert-manager.io/issuer: letsencrypt-production
+      kompose.service.expose.ingress-class-name: "nginx"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/healthcheck" ]
       interval: 20s
       retries: 5
       start_period: 20s
       timeout: 10s
+    ports:
+      - "80:8080"
     environment:
-      AUTHORITY: http://172.26.0.3:52633/realms/react-example
+      AUTHORITY: http://actix-react-oidc-keycloak/realms/react-example
     depends_on:
       - actix-react-oidc-keycloak
-    ports:
-      - "52634:8080"
     networks:
       - actix-react-oidc-network
 
+  
   actix-react-oidc-web:
     container_name: actix-react-oidc-web
-    image: actix-react-oidc-web
-    build: 
-      context: ./src/react
-      args:
-        REACT_APP_KEYCLOAK_CLIENT_ID: react
-        REACT_APP_KEYCLOAK_URL: http://172.26.0.3:52633/realms/react-example
-        REACT_APP_BACKEND_URL: http://localhost:52634
-    deploy:
-      replicas: 1
+    image: "{{ .Values.werf.image.actix_react_oidc_web }}"
+    labels:
+      kompose.service.expose: "actix-react-oidc.test"
+      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # cert-manager.io/issuer: letsencrypt-production
+      kompose.service.expose.ingress-class-name: "nginx"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
       interval: 20s
       retries: 5
       start_period: 20s
       timeout: 10s
+    environment:
+      REACT_APP_KEYCLOAK_CLIENT_ID: react
+      REACT_APP_KEYCLOAK_URL: http://keycloak.actix-react-oidc.test/realms/react-example
+      REACT_APP_BACKEND_URL: http://backend.actix-react-oidc.test
     ports:
-      - "52635:3000"
+      - "80:3000"
     depends_on:
       - actix-react-oidc-keycloak
     networks:
       - actix-react-oidc-network
 
+
+
 networks:
   actix-react-oidc-network:
-    name: actix-react-oidc-network
-    driver: bridge
-    ipam:
-      config:
-        - subnet: "172.26.0.0/24"
+
+configs:
+  keycloak-realm:
+    file: ./.keycloak/realm-export.json
 
 volumes:
   keycloakdb:

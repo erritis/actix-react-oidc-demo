@@ -1,0 +1,15 @@
+configVersion: 1
+project: actix-react-oidc-demo
+---
+image: actix_react_oidc_backend
+dockerfile: Dockerfile
+context: ./src/backend
+---
+image: actix_react_oidc_web
+dockerfile: Dockerfile
+context: ./src/react
+args: {
+  REACT_APP_KEYCLOAK_CLIENT_ID: react,
+  REACT_APP_KEYCLOAK_URL: http://keycloak.actix-react-oidc.test/realms/react-example,
+  REACT_APP_BACKEND_URL: http://backend.actix-react-oidc.test
+}

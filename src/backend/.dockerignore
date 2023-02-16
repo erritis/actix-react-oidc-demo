@@ -5,6 +5,5 @@
 **/target
 **/.vscode
 **/docker-compose*
-**/Dockerfile*
 LICENSE
 README.md

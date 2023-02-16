@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.werf.yml -o ./.helm/templates
+    kompose.service.expose: keycloak.actix-react-oidc.test
+    kompose.service.expose.ingress-class-name: nginx
+    kompose.version: 1.27.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: actix-react-oidc-keycloak
+  name: actix-react-oidc-keycloak
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: keycloak.actix-react-oidc.test
+      http:
+        paths:
+          - backend:
+              service:
+                name: actix-react-oidc-keycloak
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+status:
+  loadBalancer: {}

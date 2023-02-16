@@ -18,9 +18,39 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Launch Chrome (kubernetes)",
+            "url": "http://example.aca.test",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "/app/*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "port": 9229,
             "name": "Launch Chromium-ErritisWorker",
             "url": "http://localhost:52635",
+            "webRoot": "${workspaceFolder}",
+            "runtimeExecutable": "/usr/bin/chromium",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "/app/*": "${webRoot}/*"
+            },
+            "runtimeArgs": [
+                "--user-data-dir=/home/erritis/.config/chromium/Worker/User Data",
+                "--class=chromium_worker",
+                "--profile-directory=Worker",
+                "--remote-debugging-port=9229"
+            ]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "port": 9229,
+            "name": "Launch Chromium-ErritisWorker (kubernetes)",
+            "url": "http://example.aca.test",
             "webRoot": "${workspaceFolder}",
             "runtimeExecutable": "/usr/bin/chromium",
             "sourceMaps": true,

@@ -20,7 +20,6 @@
 **/.toolstarget
 
 # files
-Dockerfile*
 **/*.trx
 **/*.md
 **/*.ps1

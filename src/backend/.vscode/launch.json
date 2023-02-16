@@ -7,7 +7,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'backend'",
+            "name": "Debug executable 'backend'(keycloak: docker)",
             "cargo": {
                 "args": [
                     "build",
@@ -21,6 +21,28 @@
             },
             "env": {
                 "AUTHORITY": "http://172.26.0.3:52633/realms/react-example",
+                "AUDIENCE": "backend"
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'backend'(keycloak: kubernetes)",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=backend",
+                    "--package=backend"
+                ],
+                "filter": {
+                    "name": "backend",
+                    "kind": "bin"
+                }
+            },
+            "env": {
+                "AUTHORITY": "http://keycloak.aca.test/realms/react-example",
                 "AUDIENCE": "backend"
             },
             "args": [],

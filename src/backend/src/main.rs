@@ -39,10 +39,11 @@ async fn main() -> std::io::Result<()> {
                 .app_data(authority.clone())
                 .wrap(cors)
                 .service(userinfo)
+                .service(healthcheck)
             )
-            .service(healthcheck)
+            
     })
-    .bind(("0.0.0.0", 52634))?
+    .bind(("0.0.0.0", 8080))?
     .run()
     .await
 }
