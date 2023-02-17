@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { useAuth } from 'react-oidc-context';
 
 const Secured = () => {
 
-  const auth = useAuth();
   const [userinfo, setUserinfo] = useState<[string, string][]>([]);
 
   React.useEffect(() => {
       (async () => {
       try {
-          const token = auth.user?.access_token;
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userinfo`, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-          });
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userinfo`);
           let result: any = await response.json();
           
           setUserinfo(Object.entries(result));
