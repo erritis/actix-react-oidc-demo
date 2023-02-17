@@ -17,11 +17,11 @@ async fn main() -> std::io::Result<()> {
 
     let oidc = Oidc::new(OidcConfig::Issuer(authority.clone().into())).await.unwrap();
 
-    let biscuit_validator = OidcBiscuitValidator { options: ValidationOptions {
-            issuer: Validation::Validate(authority),
-            ..ValidationOptions::default()
-        }
-    };
+    // let biscuit_validator = OidcBiscuitValidator { options: ValidationOptions {
+    //         issuer: Validation::Validate(authority),
+    //         ..ValidationOptions::default()
+    //     }
+    // };
     //let scope_validator = OidcScopeValidator(vec!["openid", "profile"]);
 
     HttpServer::new(move || {
@@ -34,8 +34,8 @@ async fn main() -> std::io::Result<()> {
                 web::scope("")
                 .app_data(oidc.clone())
                 //.wrap(scope_validator.clone())
-                .wrap(biscuit_validator.clone())
-                //.wrap(OidcBiscuitValidator::default())
+                //.wrap(biscuit_validator.clone())
+                .wrap(OidcBiscuitValidator::default())
                 .wrap(cors)
                 .service(userinfo)
                 .service(healthcheck)
