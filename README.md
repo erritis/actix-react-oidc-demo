@@ -15,6 +15,7 @@ For demonstration use:
 - Microservice: [actix-web](https://github.com/actix/actix-web) + [actix-4-jwt-auth](https://github.com/spectare/actix-4-jwt-auth) (there is also a project version with [aliri](https://github.com/erritis/actix-react-oidc-demo))
 
 ---
+
 ### Users in keycloak:
 
 | login        | password                         |
