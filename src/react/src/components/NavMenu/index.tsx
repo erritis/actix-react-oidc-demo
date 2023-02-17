@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import {
   Button,
   Col,
@@ -12,16 +12,16 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./styles.ts";
-import { useAuth } from "react-oidc-context";
 import { NavbarBrand } from "./styles";
+import { OidcUserStatus, useOidc, useOidcUser } from "@axa-fr/react-oidc";
 
 export const NavMenu: FC = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleNavbar = () => setCollapsed((current) => !current);
 
-  const auth = useAuth();
-  const given_name = auth?.user?.profile.given_name;
+  const { login, logout, isAuthenticated} = useOidc();
+  const {oidcUser, oidcUserLoadingState} = useOidcUser();
 
   return (
     <header>
@@ -60,14 +60,14 @@ export const NavMenu: FC = () => {
                       </NavLink>
                     </NavItem>
 
-                    {given_name ? (
+                    {isAuthenticated && oidcUserLoadingState == OidcUserStatus.Loaded ? (
                       <>
-                        <h5 style={{ margin: "10px 10px" }}>Hello, {given_name}</h5>
+                        <h5 style={{ margin: "10px 10px" }}>Hello, {oidcUser.given_name}</h5>
                         <NavItem>
                           <NavLink
                             tag={Button}
                             color="warning"
-                            onClick={() => auth.removeUser()}
+                            onClick={() => logout()}
                           >
                             Logout
                           </NavLink>
@@ -78,7 +78,7 @@ export const NavMenu: FC = () => {
                         <NavLink
                           tag={Button}
                           color="warning"
-                          onClick={() => auth.signinRedirect()}>
+                          onClick={() => login()}>
                           Login
                         </NavLink>
                       </NavItem>

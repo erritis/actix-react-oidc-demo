@@ -4,18 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from "react-oidc-context";
-import { oidcConfig } from './auth.config';
+import { OidcProvider } from '@axa-fr/react-oidc';
+import { getOidcConfig } from './auth.config';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-
-    <AuthProvider {...oidcConfig}>
+    <OidcProvider configuration={getOidcConfig()}>
       <App />
-    </AuthProvider>
+    </OidcProvider>
   </React.StrictMode>
 );
 
