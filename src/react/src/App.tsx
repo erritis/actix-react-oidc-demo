@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./helpers/PrivateRoute";
 import Securedpage from "./pages/Securedpage";
 import { Layout } from "./components/Layout";
 import { Home } from "./components/Home";
 import Privated from "./pages/Privatedpage";
-import { OidcSecure } from "@axa-fr/react-oidc";
 
 const App: FC = () => {
   return (
@@ -15,17 +15,17 @@ const App: FC = () => {
           <Route
             path="/private"
             element={
-              <OidcSecure>
+              <PrivateRoute>
                 <Privated />
-              </OidcSecure>
+              </PrivateRoute>
             }
           />
           <Route
             path="/fetch-data"
             element={
-              <OidcSecure>
+              <PrivateRoute>
                 <Securedpage />
-              </OidcSecure>
+              </PrivateRoute>
             }
           />
         </Routes>

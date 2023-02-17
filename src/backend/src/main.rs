@@ -18,7 +18,7 @@ async fn main() -> std::io::Result<()> {
     let issuer = std::env::var("AUTHORITY").expect("AUTHORITY must be set");
 
     let validator = jwt::CoreValidator::default()
-            .require_issuer(jwt::Issuer::new(issuer.clone()))
+            //.require_issuer(jwt::Issuer::new(issuer.clone()))
             //.add_allowed_audience(jwt::Audience::new(issuer.clone()))
             ;
 
