@@ -7,7 +7,7 @@ services:
     labels:
       kompose.controller.type: "statefulset"
       kompose.service.expose: "keycloakdb.actix-react-oidc.test"
-      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # kompose.service.expose.tls-secret: "actix-react-oidc-keycloakdb-secret"
       # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
     volumes:
@@ -30,7 +30,7 @@ services:
     image: quay.io/keycloak/keycloak:19.0.3
     labels:
       kompose.service.expose: "keycloak.actix-react-oidc.test"
-      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # kompose.service.expose.tls-secret: "actix-react-oidc-keycloak-secret"
       # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
     environment:
@@ -68,7 +68,7 @@ services:
     image: "{{ .Values.werf.image.actix_react_oidc_backend }}"
     labels:
       kompose.service.expose: "backend.actix-react-oidc.test"
-      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # kompose.service.expose.tls-secret: "actix-react-oidc-backend-secret"
       # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
     healthcheck:
@@ -92,7 +92,7 @@ services:
     image: "{{ .Values.werf.image.actix_react_oidc_web }}"
     labels:
       kompose.service.expose: "actix-react-oidc.test"
-      # kompose.service.expose.tls-secret: "keycloak-secret"
+      # kompose.service.expose.tls-secret: "actix-react-oidc-web-secret"
       # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
     healthcheck:

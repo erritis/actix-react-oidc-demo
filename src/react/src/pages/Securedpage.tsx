@@ -22,7 +22,7 @@ const Secured = () => {
           console.error(e);
       }
       })();
-  }, []);
+  }, [auth, auth.user, auth.user?.access_token]);
 
 
 

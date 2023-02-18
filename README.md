@@ -44,22 +44,9 @@ For demonstration use:
 
 ---
 
-> **Warning**
-> 
-> This example is tested only on Linux, if you use a hypervisor, you may need to make some changes.
-
----
-
 #### To run you need to run the command:
 
 > docker compose up
-
----
-
-> **Warning**
-> ##### The ip address used (default: 172.26.0.0/24) specified in docker compose may already be taken, in this case, look at what is currently available for you and execute (format: x.x.0.0/24):
-> 
->> just compose-set-network 172.27.0.0/24
 
 ---
 ### Links with ports in localhost:
@@ -98,15 +85,7 @@ Set up a private repository in minikube for werf (but any will do), as in [this 
 
 > **Warning**
 > 
-> In minikube, the *--insecure-registry* parameter must be specified on first launch, otherwise minikube will not be able to fetch containers from the non-SSL repository.
-> 
-> To rollback changes without losing ingress settings, run:
-> 
-> > minikube delete
->
-> > minikube start --driver=docker --insecure-registry registry.test:80
-> 
-> Please note that addons will still be lost and will need to be reinstalled.
+> In case of problems with the deployment (and they will be), check out the [werf deployment section](https://github.com/erritis/actix-react-oidc-demo/tree/master/docs/werf-deployment.md)
 
 ---
 
@@ -142,38 +121,7 @@ Run the command:
 
 > **Warning**
 > 
-> If it's complaining about HTTPS (SSL) when trying to push a container to a repository, it's most likely that the *$DOCKER_OPTS* environment variable pointing to **/etc/docker/daemon.json** is not being used when starting the docker service.
->
-> Add to **/etc/default/docker** file:
->
-> >     DOCKER_OPTS="--config-file=/etc/docker/daemon.json"
-> 
-> Change the docker service description:
->
-> >     EnvironmentFile=-/etc/default/docker
-> >     ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS 
->
-> Run:
->
-> > sudo systemctl daemon-reload
-> >
-> > sudo systemctl restart docker.service
->
-> Check:
->
-> > docker info
->
-> If that doesn't help add to **~/.profile**:
->
-> >     export WERF_INSECURE_REGISTRY=1
-> >     export DOCKER_OPTS="--config-file=/etc/docker/daemon.json"
->
-> And in **~/.bash_profile**:
-> 
-> >      if [[ -f ~/.profile ]] && . ~/.profile
->
-> If that doesn't work add to **/etc/environment**:
-> >     DOCKER_OPTS="--config-file=/etc/docker/daemon.json"
+> In case of problems with the deployment (and they will be), check out the [werf deployment section](https://github.com/erritis/actix-react-oidc-demo/tree/master/docs/werf-deployment.md)
 
 To remove containers from kubernetes run:
 
@@ -195,4 +143,38 @@ For a complete cleaning:
 
 - Web-client: http://actix-react-oidc.test
   
-  
+### Debugging in kubernetes
+
+An article about how debugging works in Kubernetes: [Use Bridge to Kubernetes](https://learn.microsoft.com/en-us/visualstudio/bridge/bridge-to-kubernetes-vs-code?view=vs-2019)
+
+> **Warning**
+> 
+> In case of problems with configuring the plugin (and they most likely will), read the section: [Problems when configuring a kubernetes plugin](https://github.com/erritis/actix-react-oidc-demo/tree/master/docs/bridge-to-kubernetes.md)
+
+The project already contains ready-made configurations for replacing services in isolated mode
+
+In order for debugging to work in this mode, you need to specify the **kubernetes-route-as** header in each request when accessing kubernetes addresses.
+
+To simplify this task, you can use a browser plugin that automatically adds headers. I used the open source solution: [SimpleModifyHeaders](https://github.com/didierfred/SimpleModifyHeaders)
+
+Here is an example of my settings:
+
+>   **Url Patterns\***: http://actix-react-oidc.test/\*;http://\*.actix-react-oidc.test/\*
+>
+> >     Header Field Name: kubernetes-route-as
+> >     Header Field Value: actix-react-oidc-demo-2edd
+
+In case you do not need isolated mode, remove or comment out the **isolateAs** field in the **/.vscode/tasts.json** file of the project for which you want to disable this mode:
+
+>       {
+>       	"version": "2.0.0",
+>       	"tasks": [
+>       		{
+>       			"label": "bridge-to-kubernetes.resource",
+>                   ...
+>       			# "isolateAs": "actix-react-oidc-demo-2edd"
+>       		}
+>       	]
+>       }
+
+When debugging a web-client, you can still access it by its domain name.

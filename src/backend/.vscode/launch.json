@@ -7,7 +7,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'backend'(keycloak: docker)",
+            "name": "Debug executable 'backend' with Kubernetes",
             "cargo": {
                 "args": [
                     "build",
@@ -19,17 +19,14 @@
                     "kind": "bin"
                 }
             },
-            "env": {
-                "AUTHORITY": "http://172.26.0.3:52633/realms/react-example",
-                "AUDIENCE": "backend"
-            },
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "bridge-to-kubernetes.resource"
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'backend'(keycloak: kubernetes)",
+            "name": "Debug executable 'backend'",
             "cargo": {
                 "args": [
                     "build",
@@ -42,8 +39,7 @@
                 }
             },
             "env": {
-                "AUTHORITY": "http://keycloak.aca.test/realms/react-example",
-                "AUDIENCE": "backend"
+                "AUTHORITY": "http://localhost:52633/realms/react-example"
             },
             "args": [],
             "cwd": "${workspaceFolder}"

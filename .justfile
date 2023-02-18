@@ -1,15 +1,5 @@
-old_ip_set := "172.26.0.0/24"
 old_repo := "registry.test:80"
 
-compose-set-network ip_set:
-  old_ip_set={{old_ip_set}} \
-  && old_ip_set="${old_ip_set:0:-4}" \
-  && ip_set={{ip_set}} \
-  && ip_set="${ip_set:0:-4}" \
-  && sed -i "s/$(echo $old_ip_set | sed -e 's/[\/&]/\\&/g')/$(echo $ip_set | sed -e 's/[\/&]/\\&/g')/g" .justfile \
-  && sed -i "s/$(echo $old_ip_set | sed -e 's/[\/&]/\\&/g')/$(echo $ip_set | sed -e 's/[\/&]/\\&/g')/g" docker-compose.yml \
-  && sed -i "s/$(echo $old_ip_set | sed -e 's/[\/&]/\\&/g')/$(echo $ip_set | sed -e 's/[\/&]/\\&/g')/g" src/react/public/OidcTrustedDomains.js;
-  
 werf-set-repo repo:
   old_repo={{old_repo}} \
   && repo={{repo}} \
@@ -19,8 +9,8 @@ werf-convert:
   rm ./.helm/templates/keycloakdb-persistentvolumeclaim.yaml;
   find ./.helm/templates -type f -exec sed -i "s/'{{{{ \(.*\) }}'/{{{{ \1 }}/g" {} +;
 werf-up:
-  werf converge --repo {{old_repo}}/example-actix-react-auth
+  werf converge --repo {{old_repo}}/actix-react-oidc-demo
 werf-down:
-  werf dismiss --repo {{old_repo}}/example-actix-react-auth
+  werf dismiss --repo {{old_repo}}/actix-react-oidc-demo
 werf-cleanup:
-  werf cleanup --repo {{old_repo}}/example-actix-react-auth
+  werf cleanup --repo {{old_repo}}/actix-react-oidc-demo

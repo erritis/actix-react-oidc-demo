@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h keycloakdb"]
+      test: ["CMD-SHELL", "pg_isready -h actix-react-oidc-keycloakdb"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -41,16 +41,15 @@ services:
       - ./.keycloak:/opt/keycloak/data/import/:ro
     command:
       - "start"
-      - "--http-port 52633"
+      - "--http-port 8080"
       - "--proxy=passthrough"
       - "--import-realm"
     ports:
-      - 52633:52633
+      - 52633:8080
     depends_on:
       - actix-react-oidc-keycloakdb
     networks:
-      actix-react-oidc-network:
-        ipv4_address: 172.26.0.3
+      - actix-react-oidc-network
 
   actix-react-oidc-backend:
     container_name: actix-react-oidc-backend
@@ -65,7 +64,7 @@ services:
       start_period: 20s
       timeout: 10s
     environment:
-      AUTHORITY: http://172.26.0.3:52633/realms/react-example
+      AUTHORITY: http://actix-react-oidc-keycloak:8080/realms/react-example
     depends_on:
       - actix-react-oidc-keycloak
     ports:
@@ -80,7 +79,7 @@ services:
       context: ./src/react
       args:
         REACT_APP_KEYCLOAK_CLIENT_ID: react
-        REACT_APP_KEYCLOAK_URL: http://172.26.0.3:52633/realms/react-example
+        REACT_APP_KEYCLOAK_URL: http://localhost:52633/realms/react-example
         REACT_APP_BACKEND_URL: http://localhost:52634
     deploy:
       replicas: 1
@@ -101,9 +100,6 @@ networks:
   actix-react-oidc-network:
     name: actix-react-oidc-network
     driver: bridge
-    ipam:
-      config:
-        - subnet: "172.26.0.0/24"
 
 volumes:
   keycloakdb:

@@ -1,0 +1,57 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "react-local-up",
+			"command": "just",
+			"type": "process",
+			"isBackground": true,
+			"args": [
+				"react-local-up"
+			],
+			"problemMatcher": [
+				{
+					"pattern": [
+					{
+						"regexp": ".",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+					],
+					"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".",
+					"endsPattern": ".",
+					}
+				}
+				]
+		},
+		{
+			"label": "react-kube-up",
+			"command": "just",
+			"type": "process",
+			"isBackground": true,
+			"args": [
+				"react-kube-up"
+			],
+			"problemMatcher": [
+				{
+				  "pattern": [
+					{
+					  "regexp": ".",
+					  "file": 1,
+					  "location": 2,
+					  "message": 3
+					}
+				  ],
+				  "background": {
+					"activeOnStart": true,
+					"beginsPattern": ".",
+					"endsPattern": ".",
+				  }
+				}
+			  ]
+		}
+	]
+}

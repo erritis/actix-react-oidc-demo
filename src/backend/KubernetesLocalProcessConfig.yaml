@@ -1,0 +1,4 @@
+version: 0.1
+env:
+  - name: AUTHORITY
+    value: http://keycloak.actix-react-oidc.test/realms/react-example

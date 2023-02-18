@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "bridge-to-kubernetes.resource",
+			"type": "bridge-to-kubernetes.resource",
+			"resource": "actix-react-oidc-backend",
+			"resourceType": "service",
+			"ports": [
+				8080
+			],
+			"targetCluster": "minikube",
+			"targetNamespace": "actix-react-oidc-demo",
+			"useKubernetesServiceEnvironmentVariables": false,
+			"isolateAs": "actix-react-oidc-demo-2edd"
+		}
+	]
+}
