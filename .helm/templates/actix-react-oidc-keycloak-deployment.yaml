@@ -47,6 +47,8 @@ spec:
               value: postgres
             - name: KC_FEATURES
               value: token-exchange
+            - name: KC_HEALTH_ENABLED
+              value: "true"
             - name: KC_HOSTNAME_STRICT
               value: "false"
             - name: KC_HOSTNAME_STRICT_BACKCHANNEL
@@ -62,6 +64,16 @@ spec:
             - name: PROXY_ADDRESS_FORWARDING
               value: "true"
           image: quay.io/keycloak/keycloak:19.0.3
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:8080/health/ready
+            failureThreshold: 5
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 10
           name: actix-react-oidc-keycloak
           ports:
             - containerPort: 8080

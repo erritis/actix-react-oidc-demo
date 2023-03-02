@@ -22,6 +22,12 @@ services:
   actix-react-oidc-keycloak:
     container_name: actix-react-oidc-keycloak
     image: quay.io/keycloak/keycloak:19.0.3
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
+      interval: 20s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://actix-react-oidc-keycloakdb:5432/postgres
@@ -37,6 +43,7 @@ services:
       KC_HTTP_ENABLED: 'true'
       PROXY_ADDRESS_FORWARDING: 'true'
       KC_CACHE_STACK: tcp
+      KC_HEALTH_ENABLED: 'true'
     volumes:
       - ./.keycloak:/opt/keycloak/data/import/:ro
     command:
