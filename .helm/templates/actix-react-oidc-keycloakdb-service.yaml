@@ -6,7 +6,7 @@ metadata:
     kompose.controller.type: statefulset
     kompose.service.expose: keycloakdb.actix-react-oidc.test
     kompose.service.expose.ingress-class-name: nginx
-    kompose.version: 1.27.0 (HEAD)
+    kompose.version: 1.28.0 (HEAD)
   creationTimestamp: null
   labels:
     io.kompose.service: actix-react-oidc-keycloakdb

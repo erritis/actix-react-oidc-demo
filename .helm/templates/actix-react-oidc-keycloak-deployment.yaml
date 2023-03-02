@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert -f docker-compose.werf.yml -o ./.helm/templates
     kompose.service.expose: keycloak.actix-react-oidc.test
     kompose.service.expose.ingress-class-name: nginx
-    kompose.version: 1.27.0 (HEAD)
+    kompose.version: 1.28.0 (HEAD)
   creationTimestamp: null
   labels:
     io.kompose.service: actix-react-oidc-keycloak
@@ -22,7 +22,7 @@ spec:
         kompose.cmd: kompose convert -f docker-compose.werf.yml -o ./.helm/templates
         kompose.service.expose: keycloak.actix-react-oidc.test
         kompose.service.expose.ingress-class-name: nginx
-        kompose.version: 1.27.0 (HEAD)
+        kompose.version: 1.28.0 (HEAD)
       creationTimestamp: null
       labels:
         io.kompose.network/actix-react-oidc-network: "true"
@@ -31,7 +31,7 @@ spec:
       containers:
         - args:
             - start
-            - --http-port 80
+            - --http-port 8080
             - --proxy=passthrough
             - --import-realm
           env:
@@ -64,7 +64,7 @@ spec:
           image: quay.io/keycloak/keycloak:19.0.3
           name: actix-react-oidc-keycloak
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           resources: {}
           volumeMounts:
             - mountPath: /opt/keycloak/data/import/realm-export.json

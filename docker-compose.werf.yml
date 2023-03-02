@@ -52,14 +52,14 @@ services:
       - source: keycloak-realm
         target: /opt/keycloak/data/import/realm-export.json
     ports:
-      - "80:80"
+      - "80:8080"
     command:
       - "start"
-      - "--http-port 80"
+      - "--http-port 8080"
       - "--proxy=passthrough"
       - "--import-realm"
     depends_on:
-      - keycloakdb
+      - actix-react-oidc-keycloakdb
     networks:
       - actix-react-oidc-network
 
@@ -116,6 +116,7 @@ services:
 
 networks:
   actix-react-oidc-network:
+    name: actix-react-oidc-network
 
 configs:
   keycloak-realm:
