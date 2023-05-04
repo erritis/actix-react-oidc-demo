@@ -31,4 +31,4 @@ There are two deployment methods:
 
 - [Deployment in docker compose](docs/docker-deployment.md)
 
-- [Deployment to minikube](docs/minikube-deployment.md)
+- [Deployment to Minikube](docs/minikube-deployment.md)

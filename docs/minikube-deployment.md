@@ -1,4 +1,4 @@
-**The second deployment option** is the same as the first option, but in addition it also serves to demonstrate how CI/CD can be organized.
+**Deployment to Minikube** is the same as the first option, but in addition it also serves to demonstrate how CI/CD can be organized.
 
 For demonstration use:
 
@@ -12,7 +12,7 @@ For demonstration use:
 
 ---
 
-## The second deployment option
+## Deployment to Minikube
 
 ---
 ### Installation and setup

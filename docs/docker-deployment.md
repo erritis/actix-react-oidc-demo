@@ -1,8 +1,8 @@
-**The first deployment option** is to demonstrate how to set up [OpenID Connect](https://openid.net/connect) on both the server and the client using [SSO](https://auth0.com/intro-to-iam/what-is-single-sign-on-sso). This is a simplified deployment option that should not be used in real projects.
+**Deployment in docker compose** is to demonstrate how to set up [OpenID Connect](https://openid.net/connect) on both the server and the client using [SSO](https://auth0.com/intro-to-iam/what-is-single-sign-on-sso). This is a simplified deployment option that should not be used in real projects.
 
 ---
 
-## The first deployment option
+## Deployment in docker compose
 
 ---
 
