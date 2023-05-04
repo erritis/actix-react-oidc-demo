@@ -1,6 +1,6 @@
 {
-  "id": "react-example",
-  "realm": "react-example",
+  "id": "actix-react-demo",
+  "realm": "actix-react-demo",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -51,12 +51,12 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "react-example",
+        "containerId": "actix-react-demo",
         "attributes": {}
       },
       {
         "id": "6a3eae71-8b96-4c61-8b44-c0023bf3d83e",
-        "name": "default-roles-react-example",
+        "name": "default-roles-actix-react-demo",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -72,7 +72,7 @@
           }
         },
         "clientRole": false,
-        "containerId": "react-example",
+        "containerId": "actix-react-demo",
         "attributes": {}
       },
       {
@@ -81,7 +81,7 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "react-example",
+        "containerId": "actix-react-demo",
         "attributes": {}
       }
     ],
@@ -398,11 +398,11 @@
   "groups": [],
   "defaultRole": {
     "id": "6a3eae71-8b96-4c61-8b44-c0023bf3d83e",
-    "name": "default-roles-react-example",
+    "name": "default-roles-actix-react-demo",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
-    "containerId": "react-example"
+    "containerId": "actix-react-demo"
   },
   "requiredCredentials": [
     "password"
@@ -465,13 +465,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/react-example/account/",
+      "baseUrl": "/realms/actix-react-demo/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/react-example/account/*"
+        "/realms/actix-react-demo/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -508,13 +508,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/react-example/account/",
+      "baseUrl": "/realms/actix-react-demo/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/react-example/account/*"
+        "/realms/actix-react-demo/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -800,13 +800,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/react-example/console/",
+      "baseUrl": "/admin/actix-react-demo/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/react-example/console/*"
+        "/admin/actix-react-demo/console/*"
       ],
       "webOrigins": [
         "+"
@@ -2273,7 +2273,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-react-example" ],
+    "realmRoles" : [ "default-roles-actix-react-demo" ],
     "notBefore" : 0,
     "groups" : [ ]
   } ]

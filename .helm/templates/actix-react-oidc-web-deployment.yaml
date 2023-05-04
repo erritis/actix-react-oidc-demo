@@ -35,7 +35,7 @@ spec:
             - name: REACT_APP_KEYCLOAK_CLIENT_ID
               value: react
             - name: REACT_APP_KEYCLOAK_URL
-              value: http://keycloak.actix-react-oidc.test/realms/react-example
+              value: http://keycloak.actix-react-oidc.test/realms/actix-react-demo
           image: {{ .Values.werf.image.actix_react_oidc_web }}
           livenessProbe:
             exec:

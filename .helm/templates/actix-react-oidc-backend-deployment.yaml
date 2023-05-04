@@ -31,7 +31,7 @@ spec:
       containers:
         - env:
             - name: AUTHORITY
-              value: http://actix-react-oidc-keycloak/realms/react-example
+              value: http://actix-react-oidc-keycloak/realms/actix-react-demo
           image: {{ .Values.werf.image.actix_react_oidc_backend }}
           livenessProbe:
             exec:

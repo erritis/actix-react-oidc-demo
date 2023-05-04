@@ -71,7 +71,7 @@ services:
       start_period: 20s
       timeout: 10s
     environment:
-      AUTHORITY: http://actix-react-oidc-keycloak:8080/realms/react-example
+      AUTHORITY: http://actix-react-oidc-keycloak:8080/realms/actix-react-demo
     depends_on:
       - actix-react-oidc-keycloak
     ports:
@@ -86,7 +86,7 @@ services:
       context: ./src/react
       args:
         REACT_APP_KEYCLOAK_CLIENT_ID: react
-        REACT_APP_KEYCLOAK_URL: http://localhost:52633/realms/react-example
+        REACT_APP_KEYCLOAK_URL: http://localhost:52633/realms/actix-react-demo
         REACT_APP_BACKEND_URL: http://localhost:52634
     deploy:
       replicas: 1
