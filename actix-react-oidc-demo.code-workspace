@@ -4,10 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "src/web"
+			"path": "src/backend"
 		},
 		{
-			"path": "src/backend"
+			"path": "src/web"
 		}
 	],
 	"settings": {}
