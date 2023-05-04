@@ -39,7 +39,7 @@
                 }
             },
             "env": {
-                "AUTHORITY": "http://localhost:52633/realms/actix-react-demo"
+                "ISSUER": "http://localhost:52633/realms/actix-react-demo"
             },
             "args": [],
             "cwd": "${workspaceFolder}"

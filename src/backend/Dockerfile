@@ -1,8 +1,4 @@
-FROM rust:alpine AS builder
-
-RUN rustup target add x86_64-unknown-linux-musl
-RUN apk update && apk add musl musl-dev
-RUN update-ca-certificates
+FROM rust:latest as build
 
 ENV APP=backend APP_FILE=backend
 
@@ -12,23 +8,25 @@ COPY Cargo.toml Cargo.toml
 
 RUN mkdir src/ && echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
 
-RUN cargo build --target=x86_64-unknown-linux-musl
+RUN cargo build --release
 
-RUN rm ./src/*.rs && rm ./target/x86_64-unknown-linux-musl/debug/deps/${APP_FILE}*
+RUN rm ./src/*.rs && rm ./target/release/deps/${APP_FILE}*
 
 COPY ./src/ ./src/
 
-RUN cargo build --target=x86_64-unknown-linux-musl
+RUN cargo build --release
 
 
-FROM rust:alpine AS publish
+FROM debian:bullseye-slim
 
-RUN apk --no-cache add curl
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 ENV APP=backend
 
-COPY --from=builder /source/${APP}/target/x86_64-unknown-linux-musl/debug/${APP} ./
+COPY --from=build /source/${APP}/target/release/${APP} .
 
 ENTRYPOINT ["./backend"]
+
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

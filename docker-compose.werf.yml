@@ -6,10 +6,6 @@ services:
     image: postgres:12.9
     labels:
       kompose.controller.type: "statefulset"
-      kompose.service.expose: "keycloakdb.actix-react-oidc.test"
-      # kompose.service.expose.tls-secret: "actix-react-oidc-keycloakdb-secret"
-      # cert-manager.io/issuer: letsencrypt-production
-      kompose.service.expose.ingress-class-name: "nginx"
     volumes:
       - keycloakdb:/var/lib/postgresql/data
     ports:
@@ -31,8 +27,8 @@ services:
     labels:
       kompose.service.expose: "keycloak.actix-react-oidc.test"
       # kompose.service.expose.tls-secret: "actix-react-oidc-keycloak-secret"
-      # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
+      # cert-manager.io/cluster-issuer: cert-manager-issuer
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
       interval: 20s
@@ -76,8 +72,8 @@ services:
     labels:
       kompose.service.expose: "backend.actix-react-oidc.test"
       # kompose.service.expose.tls-secret: "actix-react-oidc-backend-secret"
-      # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
+      # cert-manager.io/cluster-issuer: cert-manager-issuer
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/healthcheck" ]
       interval: 20s
@@ -87,7 +83,7 @@ services:
     ports:
       - "80:8080"
     environment:
-      AUTHORITY: http://actix-react-oidc-keycloak/realms/actix-react-demo
+      ISSUER: http://keycloak.actix-react-oidc.test/realms/actix-react-demo
     depends_on:
       - actix-react-oidc-keycloak
     networks:
@@ -100,8 +96,8 @@ services:
     labels:
       kompose.service.expose: "actix-react-oidc.test"
       # kompose.service.expose.tls-secret: "actix-react-oidc-web-secret"
-      # cert-manager.io/issuer: letsencrypt-production
       kompose.service.expose.ingress-class-name: "nginx"
+      # cert-manager.io/cluster-issuer: cert-manager-issuer
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
       interval: 20s
