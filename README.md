@@ -35,7 +35,7 @@ For demonstration use:
 
 | login        | password                         |
 |--------------|:--------------------------------:|
-| admin        | PdZoV9NpYuq#zdsYXfHo             |
+| admin        | admin                            |
 | react-tester | ^J2WnUY#T3XSi4@AH4NEySqUAhfhid%o |
 
 ---

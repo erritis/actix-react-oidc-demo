@@ -34,7 +34,7 @@ services:
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: postgres
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: PdZoV9NpYuq#zdsYXfHo
+      KEYCLOAK_ADMIN_PASSWORD: admin
       KC_FEATURES:
         token-exchange
       KC_HOSTNAME_STRICT: 'false'
