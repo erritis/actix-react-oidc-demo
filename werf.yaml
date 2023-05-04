@@ -7,7 +7,7 @@ context: ./src/backend
 ---
 image: actix_react_oidc_web
 dockerfile: Dockerfile
-context: ./src/react
+context: ./src/web
 args: {
   REACT_APP_KEYCLOAK_CLIENT_ID: web,
   REACT_APP_KEYCLOAK_URL: http://keycloak.actix-react-oidc.test/realms/actix-react-demo,

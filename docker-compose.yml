@@ -83,9 +83,9 @@ services:
     container_name: actix-react-oidc-web
     image: actix-react-oidc-web
     build: 
-      context: ./src/react
+      context: ./src/web
       args:
-        REACT_APP_KEYCLOAK_CLIENT_ID: react
+        REACT_APP_KEYCLOAK_CLIENT_ID: web
         REACT_APP_KEYCLOAK_URL: http://localhost:52633/realms/actix-react-demo
         REACT_APP_BACKEND_URL: http://localhost:52634
     deploy:
