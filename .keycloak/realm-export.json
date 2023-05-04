@@ -301,7 +301,7 @@
       "security-admin-console": [],
       "admin-cli": [],
       "backend": [],
-      "react": [],
+      "web": [],
       "account-console": [],
       "broker": [
         {
@@ -689,7 +689,7 @@
     },
     {
       "id": "97f1b607-c6e0-4925-b3d5-2829a6b46d8e",
-      "clientId": "react",
+      "clientId": "web",
       "rootUrl": "",
       "adminUrl": "http://localhost:52435/",
       "baseUrl": "http://localhost:52435/",
